@@ -19,7 +19,7 @@ function fetch(url){
             }
             reject(err)
         })
-    })
+    }).catch(new Function())
 }
 
 function post(url,formData){
@@ -34,7 +34,7 @@ function post(url,formData){
             }
             reject(err)
         })
-    }))
+    })).catch(new Function())
 }
 
 function getStream(url){

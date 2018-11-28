@@ -13,6 +13,7 @@
     "base64-stream": "^1.0.0",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
+    "iconv-lite": "^0.4.24",
     "koa": "^2.6.2",
     "koa-body": "^4.0.4",
     "koa-router": "^7.4.0",

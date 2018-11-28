@@ -8,79 +8,23 @@
 </head>
 <body>
     <form action="http://localhost:3000/login" method="POST">
-        <input type="text" name="USERNAME"/>
-        <input type="text" name="PASSWORD"/>
+        <input type="text" name="USERNAME" value="161501140323"/>
+        <input type="text" name="PASSWORD" value="312274"/>
         <input type="text" name="RANDOMCODE"/>
         <button type="submit">dasd</button>
         <img id="img"/>
     </form>
     <script>
+        getJsonP('http://localhost:3000/code')
+        
+        function getJsonP(url){
+            let script = document.createElement('script')
+            script.src = url + '?callback=onBack'
+            document.head.appendChild(script)
+        }
 
-
-        var count = 0;
-
-        /**
-         * Noop function.
-         */
-
-        function noop(){}
-
-        function jsonp(url, opts, fn){
-            if ('function' == typeof opts) {
-                fn = opts;
-                opts = {};
-            }
-            if (!opts) opts = {};
-
-            var prefix = opts.prefix || '__jp';
-
-            // use the callback name that was passed if one was provided.
-            // otherwise generate a unique name by incrementing our counter.
-            var id = opts.name || (prefix + (count++));
-
-            var param = opts.param || 'callback';
-            var timeout = null != opts.timeout ? opts.timeout : 60000;
-            var enc = encodeURIComponent;
-            var target = document.getElementsByTagName('script')[0] || document.head;
-            var script;
-            var timer;
-
-
-            if (timeout) {
-                timer = setTimeout(function(){
-                cleanup();
-                if (fn) fn(new Error('Timeout'));
-                }, timeout);
-            }
-
-            function cleanup(){
-                if (script.parentNode) script.parentNode.removeChild(script);
-                window[id] = noop;
-                if (timer) clearTimeout(timer);
-            }
-
-            function cancel(){
-                if (window[id]) {
-                cleanup();
-                }
-            }
-
-            window[id] = function(data){
-                cleanup();
-                if (fn) fn(null, data);
-            };
-
-            // add qs component
-            url += (~url.indexOf('?') ? '&' : '?') + param + '=' + enc(id);
-            url = url.replace('?&', '?');
-
-
-            // create script
-            script = document.createElement('script');
-            script.src = url;
-            target.parentNode.insertBefore(script, target);
-
-            return cancel;
+        function onBack(res){
+            document.getElementById('img').src = res.data
         }
     </script>
 </body>
