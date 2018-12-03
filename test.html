@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:3000/login" method="POST">
+    <form action="http://localhost:3000/dyjw/login" method="POST">
         <input type="text" name="USERNAME" value="161501140323"/>
         <input type="text" name="PASSWORD" value="312274"/>
         <input type="text" name="RANDOMCODE"/>
@@ -15,7 +15,7 @@
         <img id="img"/>
     </form>
     <script>
-        getJsonP('http://localhost:3000/code')
+        getJsonP('http://localhost:3000/dyjw/code')
         
         function getJsonP(url){
             let script = document.createElement('script')
