@@ -1,21 +1,13 @@
-const {fetch,post,getStream} = require('../utils/frequest');
+const {fetch,post,getCodeAndSetSessionId} = require('../utils/frequest');
 const format = require('../utils/formatutil')
-const {turnToEn,chToEn,streamToBase64} = require('../utils/turnutil')
+const {turnToEn,chToEn,streamToBase64,getRadioValue} = require('../utils/turnutil')
 const cheerio = require('cheerio')
 
 class DyjwService{
 
-    async getCode(){
-        let stream =  getStream('/verifycode.servlet')
-        const base64 =  await streamToBase64(stream)
-        const base64data = {
-            data : base64
-        }
-        return format.success(200,base64data)
-    }
 
-
-    async login(name,pwd,code){
+    async login(name,pwd){
+        let code = await getCodeAndSetSessionId();
         let main = await post('/Logon.do?method=logon',{
             USERNAME:name,
             PASSWORD:pwd,
@@ -23,7 +15,6 @@ class DyjwService{
         }).catch(err => {
 
         })
-    
         if (main.indexOf('http://jwgl.nepu.edu.cn/framework/main.jsp') == -1) {
                 return format.success(404,{
                     name:'用户名，密码或验证码错误'
@@ -115,13 +106,42 @@ class DyjwService{
                     'classname':$($(el).children()[4]).text(),
                     'teacher':$($(el).children()[5]).text(),
                     'grade':$($(el).children()[6]).text(),
-                    'evaluated': $($(el).children()[7]).text() === '是' ? true : false
+                    'evaluated': $($(el).children()[7]).text() === '是' ? true : false,
+                    'evaluateUrl': $($($(el).children()[9]).children()[0]).attr('onclick') ? $($($(el).children()[9]).children()[0]).attr('onclick').substr(19,256) : ''
                 })
             }
         })
-    
         return format.success(200,data);
     
+    }
+
+    async postJXPJInfor(urlarray){
+        
+        for (const url of urlarray) {
+            let html = await fetch(`${url}&tktime=${new Date().getTime()}`)
+            const $ = cheerio.load(html)
+            let data = {
+                'type' : '2'
+            }
+            $('input[type="hidden"]').each((index,el) => {
+                if(index > 1 && index <= 13) {
+                    data[$(el).attr('name')] = $(el).val()   
+                }
+            })
+            let star = getRadioValue('star5')
+            Object.assign(data,star)
+            let valarray = Object.keys(star)
+            let val = ''
+            valarray.forEach(value =>{
+                val += star[value] + '*'
+            })
+            val = val.substring(0,val.length - 1)
+            let html2 = await post(`/jxpjgl.do?method=savePj&tjfs=2&val=${val}`,data)
+            console.log(html2);
+        }
+
+        return ''
+
     }
 
     async getSyllabusPeriod(){

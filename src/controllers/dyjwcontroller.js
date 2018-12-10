@@ -4,15 +4,11 @@ const service = require('../services/dyjwservice')
 
 class DyjwController{
 
-    //获取验证码
-    async getCode(ctx) {
-        ctx.body = await service.getCode();
-    }
 
     //登陆
     async login(ctx){
-        let {USERNAME,PASSWORD,RANDOMCODE} = ctx.request.body
-        let result = await service.login(USERNAME,PASSWORD,RANDOMCODE)
+        let {USERNAME,PASSWORD} = ctx.request.body
+        let result = await service.login(USERNAME,PASSWORD)
         ctx.body = result
     }
 
@@ -39,6 +35,15 @@ class DyjwController{
     //课表详情
     async getSyllabusDetail(ctx){
         let data = await service.getSyllabus(ctx.params.preiod,ctx.params.studentnum)
+        ctx.body = data
+    }
+
+    //评价
+    async postJXPJInfor(ctx){
+        let {url} = ctx.request.body
+        url = url.split(',')
+        console.log(url[0]);
+        let data = await service.postJXPJInfor(url);
         ctx.body = data
     }
 
