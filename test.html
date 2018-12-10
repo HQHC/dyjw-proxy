@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script type="text/javascript" src="./exif.js"></script>
 </head>
 <body>
     <form action="http://localhost:3000/dyjw/login" method="POST">
@@ -15,17 +16,25 @@
         <img id="img"/>
     </form>
     <script>
-        getJsonP('http://localhost:3000/dyjw/code')
+        // getJsonP('http://localhost:3000/dyjw/code')
         
-        function getJsonP(url){
-            let script = document.createElement('script')
-            script.src = url + '?callback=onBack'
-            document.head.appendChild(script)
-        }
+        // function getJsonP(url){
+        //     let script = document.createElement('script')
+        //     script.src = url + '?callback=onBack'
+        //     document.head.appendChild(script)
+        // }
 
-        function onBack(res){
-            document.getElementById('img').src = res.data
-        }
+        // function onBack(res){
+        //     document.getElementById('img').src = res.data
+        // }
+    var image = new Image();
+    image.onload = function() {
+        EXIF.getData(image, function() {
+            console.log(EXIF.pretty(this));
+        });
+    };
+    image.src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAWAD4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDd0238OWvhzwpp1l4C0zXNdvNIt7uVGtYY8R+WMyPKyEZLZHPU9TkgHpdI03wDqOjT6hdeFtA042kzWt6lzZwBbeZSAyF9u1hkjBHXI6HgYUvjuPw38PPCuk2tzDb6pd6LbOtxcI7RWyeUAHIVWLMSpAABGeW44LdVfRm+B2rLo2oPqKpMn2q8kiZHnnM0bOzbgCT8w5OeMDJxWvJ7qdjbk9xOx1h0H4cKl27aT4VC2bBLkm3t8QMTtAfj5TkEc96zPC9p4B8R6Vp9xJ4Y8NWd7eq7x2LW8DSFVd1yBtBI+Qnp2PpVdPCXh9Pixb6eNItPsdvoQlSAxgqXExTcwP3ztPVsnoeoBrgtM/sa58AWGl6bplx/wmU92JbSaOJlkYiQ/vVlyAIwqsvXAZScDBaosiVFNHrF5oPw608yC70bwxCYnSORXtIAUZ/ugjHGRk89gT0Bq7F4J8FzwpND4Y0CSKRQyOlhCVYHkEELyKyNO0bTdU+I/iqW/sYLpoVtFjE6B1UNFzweM/KOev5mr3w0/wCSfaX/ANtf/Rr1mnqYKTbLn/CCeD/+hU0P/wAF0P8A8TXl/wAdvDXhzRvCFhfW2jQWzfbUt8WUccHy7JWxnYcDOTgYyTznAx7hXj/7R3/JPNP/AOwrH/6KlqizL8NfH3wro3hXSNLuNP1lp7Kyht5GjhiKlkQKSMyA4yPQVqf8NHeD/wDoG65/34h/+O0UUAH/AA0d4P8A+gbrn/fiH/47R/w0d4P/AOgbrn/fiH/47RRQAf8ADR3g/wD6Buuf9+If/jtH/DR3g/8A6Buuf9+If/jtFFAB/wANHeD/APoG65/34h/+O1wnxZ+LOg+PPCtrpel2mpQzxXqXDNdRoqlQjrgbXY5y47etFFAH/9k='       
+    
     </script>
 </body>
 </html>
