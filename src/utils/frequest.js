@@ -8,7 +8,7 @@ const j = baseRequest.jar()
 
 function getCodeAndSetSessionId(){
     return new Promise((resolve,reject) => {
-        request('http://localhost:8080/code',(err,response,body) => {
+        request('http://172.17.0.1/code',(err,response,body) => {
             let data = body.split(",")
             let code = data[0]
             let sessionid = data[1];
